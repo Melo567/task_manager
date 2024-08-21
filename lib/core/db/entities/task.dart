@@ -1,4 +1,5 @@
 import 'package:floor/floor.dart';
+import 'package:task_manager/core/models/task_model.dart';
 
 enum TaskStatus {
   notStared,
@@ -21,4 +22,12 @@ class Task {
     required this.description,
     this.status = TaskStatus.notStared,
   }) : createdAt = DateTime.now();
+
+  TaskModel toModel() => TaskModel(
+        title: title,
+        description: description,
+        id: id,
+        createdAt: createdAt,
+        status: status,
+      );
 }

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/core/injects/inject.dart';
 import 'package:task_manager/core/styles/theme.dart';
 import 'package:task_manager/core/utils/app_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_manager/modules/home/presentation/manager/home_bloc.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final router = AppRouter();
+  await inject();
   runApp(
     App(
       appRouter: router,
@@ -21,10 +26,18 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Task Manager',
-      theme: theme,
-      routerConfig: appRouter.config(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<HomeBloc>(),
+        )
+      ],
+      child: MaterialApp.router(
+        title: 'Task Manager',
+        debugShowCheckedModeBanner: false,
+        theme: theme,
+        routerConfig: appRouter.config(),
+      ),
     );
   }
 }
