@@ -1,6 +1,20 @@
 import 'package:floor/floor.dart';
+import 'package:task_manager/core/db/entities/task.dart';
 
 @dao
 abstract class TaskDao {
+  @Query("SELECT * FROM Task")
+  Future<List<Task>> findAll();
 
+  @Query("SELECT * FROM Task WHERE status LIKE :status")
+  Future<List<Task>> search(String status);
+
+  @Query("SELECT * FROM Task WHERE id = :id")
+  Future<Task?> findById(int id);
+
+  @Insert(onConflict: OnConflictStrategy.replace)
+  Future<void> insert(Task task);
+
+  @Update(onConflict: OnConflictStrategy.replace)
+  Future<void> update(Task task);
 }
