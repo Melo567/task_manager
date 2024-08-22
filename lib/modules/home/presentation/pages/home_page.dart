@@ -33,8 +33,11 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           PopupMenuButton<TaskStatus>(
-            child: const Icon(
-              Icons.filter,
+            child: const Padding(
+              padding: EdgeInsets.only(right: 20),
+              child: Icon(
+                Icons.filter_alt_outlined,
+              ),
             ),
             onSelected: (value) {
               context.read<HomeBloc>().add(

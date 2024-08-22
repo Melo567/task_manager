@@ -54,6 +54,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                   onTap: () async {
                     final date = await showDatePicker(
                       context: context,
+                      initialDate: _dateTime ?? DateTime.now(),
                       firstDate: DateTime.now(),
                       lastDate: DateTime(2050),
                     );
@@ -70,9 +71,10 @@ class _DateTimePickerState extends State<DateTimePicker> {
                     }
                   },
                   decoration: const InputDecoration(
-                      labelText: 'Date',
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      hintText: 'DD-MM-YYYY'),
+                    labelText: 'Date',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    hintText: 'DD-MM-YYYY',
+                  ),
                 ),
               ),
               const SizedBox(
@@ -87,7 +89,12 @@ class _DateTimePickerState extends State<DateTimePicker> {
                   onTap: () async {
                     final hour = await showTimePicker(
                       context: context,
-                      initialTime: TimeOfDay.now(),
+                      initialTime: _dateTime != null
+                          ? TimeOfDay(
+                              hour: _dateTime!.hour,
+                              minute: _dateTime!.minute,
+                            )
+                          : TimeOfDay.now(),
                     );
                     if (hour != null) {
                       final temp = DateTime.now();
@@ -113,6 +120,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                 onPressed: () async {
                   final date = await showDatePicker(
                     context: context,
+                    initialDate: _dateTime ?? DateTime.now(),
                     firstDate: DateTime.now(),
                     lastDate: DateTime(2050),
                   );
@@ -130,7 +138,12 @@ class _DateTimePickerState extends State<DateTimePicker> {
                   if (context.mounted) {
                     final hour = await showTimePicker(
                       context: context,
-                      initialTime: TimeOfDay.now(),
+                      initialTime: _dateTime != null
+                          ? TimeOfDay(
+                              hour: _dateTime!.hour,
+                              minute: _dateTime!.minute,
+                            )
+                          : TimeOfDay.now(),
                     );
                     if (hour != null) {
                       final temp = DateTime.now();

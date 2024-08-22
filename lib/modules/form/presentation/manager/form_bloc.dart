@@ -14,12 +14,7 @@ class FormBloc extends Bloc<FormEvent, FormPageState> {
   FormBloc(
     this.saveTaskUseCase,
     this.fetchTaskByIdUseCase,
-  ) : super(const FormInitial(
-          TaskModel(
-            title: '',
-            description: '',
-          ),
-        )) {
+  ) : super(const FormInitial()) {
     on<FetchTaskByIdFormEvent>(_onFetchTask);
     on<SaveFormEvent>(_onSaveTask);
     on<NewTaskFormEvent>(_onNewTask);
@@ -42,13 +37,23 @@ class FormBloc extends Bloc<FormEvent, FormPageState> {
     FetchTaskByIdFormEvent event,
     Emitter<FormPageState> emit,
   ) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
     final result = await fetchTaskByIdUseCase(event.id);
     result.fold(
       (l) {},
       (r) {
         descriptionController.text = r.description;
         titleController.text = r.title;
-        emit(FormPageState(r));
+        emit(
+          state.copyWith(
+            task: r,
+            status: FormStatus.loaded,
+          ),
+        );
       },
     );
   }
@@ -70,10 +75,7 @@ class FormBloc extends Bloc<FormEvent, FormPageState> {
   ) async {
     emit(
       const FormInitial(
-        TaskModel(
-          title: '',
-          description: '',
-        ),
+        status: FormStatus.loaded,
       ),
     );
     descriptionController.text = '';
@@ -87,7 +89,7 @@ class FormBloc extends Bloc<FormEvent, FormPageState> {
     final task = state.task.copyWith(
       dueDate: event.dateTime,
     );
-    emit(FormPageState(task));
+    emit(state.copyWith(task: task));
   }
 
   Future<void> _onChangeStatus(
@@ -97,6 +99,6 @@ class FormBloc extends Bloc<FormEvent, FormPageState> {
     final task = state.task.copyWith(
       status: event.status,
     );
-    emit(FormPageState(task));
+    emit(state.copyWith(task: task));
   }
 }

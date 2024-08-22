@@ -41,94 +41,108 @@ class _FormPageState extends State<FormPage> {
       body: SingleChildScrollView(
         child: BlocBuilder<FormBloc, FormPageState>(
           builder: (context, state) {
-            return Form(
-              key: context.read<FormBloc>().formKey,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(
-                      8.0,
-                    ),
-                    child: TextFormField(
-                      controller: context.read<FormBloc>().titleController,
-                      autofocus: false,
-                      onTapOutside: (pointer) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      decoration: const InputDecoration(
-                        labelText: "Titre",
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
+            switch (state.status) {
+              case FormStatus.init:
+                return Container();
+              case FormStatus.loading:
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              default:
+                return Form(
+                  key: context.read<FormBloc>().formKey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(
+                          8.0,
+                        ),
+                        child: TextFormField(
+                          controller: context.read<FormBloc>().titleController,
+                          autofocus: false,
+                          onTapOutside: (pointer) {
+                            FocusScope.of(context).unfocus();
+                          },
+                          decoration: const InputDecoration(
+                            labelText: "Titre",
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                          ),
+                          validator: (value) {
+                            if (value == null || value == "") {
+                              return "Bad format";
+                            }
+                            return null;
+                          },
+                        ),
                       ),
-                      validator: (value) {
-                        if (value == null || value == "") return "Bad format";
-                        return null;
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller:
-                          context.read<FormBloc>().descriptionController,
-                      maxLines: 10,
-                      autofocus: false,
-                      onTapOutside: (pointer) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      decoration: const InputDecoration(
-                        labelText: "Description",
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller:
+                              context.read<FormBloc>().descriptionController,
+                          maxLines: 10,
+                          autofocus: false,
+                          onTapOutside: (pointer) {
+                            FocusScope.of(context).unfocus();
+                          },
+                          decoration: const InputDecoration(
+                            labelText: "Description",
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                          ),
+                          validator: (value) {
+                            if (value == null || value == "") {
+                              return "Bad format";
+                            }
+                            return null;
+                          },
+                        ),
                       ),
-                      validator: (value) {
-                        if (value == null || value == "") return "Bad format";
-                        return null;
-                      },
-                    ),
-                  ),
-                  TaskStatusModifierWidget(
-                    modifiable: widget.id == null,
-                    onChange: (value) {
-                      if (value == null) return;
-                      context
-                          .read<FormBloc>()
-                          .add(ChangeStatusFormEvent(value));
-                    },
-                  ),
-                  DateTimePicker(
-                    onChange: (value) {
-                      context.read<FormBloc>().add(
-                            ChangeDueDateFormEvent(value),
-                          );
-                    },
-                    defaultValue: state.task.dueDate,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (context
-                          .read<FormBloc>()
-                          .formKey
-                          .currentState!
-                          .validate()) {
-                        context.read<FormBloc>().add(const SaveFormEvent());
-                        context
-                            .read<HomeBloc>()
-                            .add(const FetchTaskHomeEvent(null));
-                        if (widget.id != null) {
+                      TaskStatusModifierWidget(
+                        modifiable: widget.id == null,
+                        initialValue: state.task.status,
+                        onChange: (value) {
+                          if (value == null) return;
                           context
-                              .read<DetailBloc>()
-                              .add(FetchTaskByIdDetailEvent(widget.id!));
-                        }
+                              .read<FormBloc>()
+                              .add(ChangeStatusFormEvent(value));
+                        },
+                      ),
+                      DateTimePicker(
+                        onChange: (value) {
+                          context.read<FormBloc>().add(
+                                ChangeDueDateFormEvent(value),
+                              );
+                        },
+                        defaultValue: state.task.dueDate,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (context
+                              .read<FormBloc>()
+                              .formKey
+                              .currentState!
+                              .validate()) {
+                            context.read<FormBloc>().add(const SaveFormEvent());
+                            context
+                                .read<HomeBloc>()
+                                .add(const FetchTaskHomeEvent(null));
+                            if (widget.id != null) {
+                              context
+                                  .read<DetailBloc>()
+                                  .add(FetchTaskByIdDetailEvent(widget.id!));
+                            }
 
-                        context.router.popForced();
-                      }
-                    },
-                    child: const Text(
-                      "Enregistrer",
-                    ),
-                  )
-                ],
-              ),
-            );
+                            context.router.popForced();
+                          }
+                        },
+                        child: const Text(
+                          "Enregistrer",
+                        ),
+                      )
+                    ],
+                  ),
+                );
+            }
           },
         ),
       ),

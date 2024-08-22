@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:task_manager/core/db/entities/task.dart';
 import 'package:task_manager/core/models/task_model.dart';
 import 'package:task_manager/core/utils/app_router.dart';
 import 'package:task_manager/core/utils/date_time_extension.dart';
@@ -46,15 +47,13 @@ class TaskItemWidget extends StatelessWidget {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.teal,
+                          color: getColor(task.status!),
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         padding: const EdgeInsets.all(4),
                         child: Text(
                           task.status!.name,
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
+                          style: Theme.of(context).textTheme.labelMedium,
                         ),
                       )
                     ],
@@ -71,7 +70,7 @@ class TaskItemWidget extends StatelessWidget {
                       task.dueDate != null
                           ? LegendWidget(
                               label: "Due Date",
-                              value: task.createdAt!.humanDateTime,
+                              value: task.dueDate!.humanDateTime,
                             )
                           : Container(),
                       LegendWidget(
@@ -87,5 +86,18 @@ class TaskItemWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color getColor(TaskStatus status) {
+    switch (status) {
+      case TaskStatus.notStared:
+        return Colors.yellow;
+      case TaskStatus.progress:
+        return Colors.blue;
+      case TaskStatus.done:
+        return Colors.green;
+      default:
+        return Colors.white;
+    }
   }
 }
