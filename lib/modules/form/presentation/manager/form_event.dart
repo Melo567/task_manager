@@ -11,6 +11,24 @@ class SaveFormEvent extends FormEvent {
   List<Object> get props => [];
 }
 
+class ChangeDueDateFormEvent extends FormEvent {
+  final DateTime dateTime;
+
+  const ChangeDueDateFormEvent(this.dateTime);
+
+  @override
+  List<Object> get props => [dateTime];
+}
+
+class ChangeStatusFormEvent extends FormEvent {
+  final TaskStatus status;
+
+  const ChangeStatusFormEvent(this.status);
+
+  @override
+  List<Object> get props => [status];
+}
+
 class FetchTaskByIdFormEvent extends FormEvent {
   final int id;
 

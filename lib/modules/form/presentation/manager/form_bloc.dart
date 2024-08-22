@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_manager/core/db/entities/task.dart';
 import 'package:task_manager/core/models/task_model.dart';
 import 'package:task_manager/modules/form/domain/use_cases/fetch_task_by_id_use_case.dart';
 import 'package:task_manager/modules/form/domain/use_cases/save_task_use_case.dart';
@@ -22,6 +23,8 @@ class FormBloc extends Bloc<FormEvent, FormPageState> {
     on<FetchTaskByIdFormEvent>(_onFetchTask);
     on<SaveFormEvent>(_onSaveTask);
     on<NewTaskFormEvent>(_onNewTask);
+    on<ChangeDueDateFormEvent>(_onChangeDueDate);
+    on<ChangeStatusFormEvent>(_onChangeStatus);
 
     titleController = TextEditingController();
     descriptionController = TextEditingController();
@@ -54,10 +57,11 @@ class FormBloc extends Bloc<FormEvent, FormPageState> {
     SaveFormEvent event,
     Emitter<FormPageState> emit,
   ) async {
-    await saveTaskUseCase(TaskModel(
+    final task = state.task.copyWith(
       title: titleController.text,
       description: descriptionController.text,
-    ));
+    );
+    await saveTaskUseCase(task);
   }
 
   Future<void> _onNewTask(
@@ -74,5 +78,25 @@ class FormBloc extends Bloc<FormEvent, FormPageState> {
     );
     descriptionController.text = '';
     titleController.text = '';
+  }
+
+  Future<void> _onChangeDueDate(
+    ChangeDueDateFormEvent event,
+    Emitter<FormPageState> emit,
+  ) async {
+    final task = state.task.copyWith(
+      dueDate: event.dateTime,
+    );
+    emit(FormPageState(task));
+  }
+
+  Future<void> _onChangeStatus(
+    ChangeStatusFormEvent event,
+    Emitter<FormPageState> emit,
+  ) async {
+    final task = state.task.copyWith(
+      status: event.status,
+    );
+    emit(FormPageState(task));
   }
 }

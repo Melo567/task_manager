@@ -11,6 +11,7 @@ class SaveTaskUseCase extends UseCase<void, TaskModel> {
 
   @override
   Future<Either<Failure, void>> call(TaskModel param) async {
+    print(param);
     return repository.save(param);
   }
 }

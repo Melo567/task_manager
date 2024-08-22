@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_manager/core/widgets/date_time_picker.dart';
+import 'package:task_manager/core/widgets/task_status_modifier_widget.dart';
 import 'package:task_manager/modules/detail/presentation/manager/detail_bloc.dart';
 import 'package:task_manager/modules/home/presentation/manager/home_bloc.dart';
 
@@ -36,77 +38,99 @@ class _FormPageState extends State<FormPage> {
           'Form Task',
         ),
       ),
-      body: BlocBuilder<FormBloc, FormPageState>(
-        builder: (context, state) {
-          return Form(
-            key: context.read<FormBloc>().formKey,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(
-                    8.0,
-                  ),
-                  child: TextFormField(
-                    controller: context.read<FormBloc>().titleController,
-                    onTapOutside: (pointer) {
-                      FocusScope.of(context).unfocus();
-                    },
-                    decoration: const InputDecoration(
-                      labelText: "Titre",
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
+      body: SingleChildScrollView(
+        child: BlocBuilder<FormBloc, FormPageState>(
+          builder: (context, state) {
+            return Form(
+              key: context.read<FormBloc>().formKey,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(
+                      8.0,
                     ),
-                    validator: (value) {
-                      if (value == null || value == "") return "Bad format";
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    controller: context.read<FormBloc>().descriptionController,
-                    maxLines: 10,
-                    onTapOutside: (pointer) {
-                      FocusScope.of(context).unfocus();
-                    },
-                    decoration: const InputDecoration(
-                      labelText: "Description",
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                    child: TextFormField(
+                      controller: context.read<FormBloc>().titleController,
+                      autofocus: false,
+                      onTapOutside: (pointer) {
+                        FocusScope.of(context).unfocus();
+                      },
+                      decoration: const InputDecoration(
+                        labelText: "Titre",
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                      ),
+                      validator: (value) {
+                        if (value == null || value == "") return "Bad format";
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value == "") return "Bad format";
-                      return null;
-                    },
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    if (context
-                        .read<FormBloc>()
-                        .formKey
-                        .currentState!
-                        .validate()) {
-                      context.read<FormBloc>().add(const SaveFormEvent());
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller:
+                          context.read<FormBloc>().descriptionController,
+                      maxLines: 10,
+                      autofocus: false,
+                      onTapOutside: (pointer) {
+                        FocusScope.of(context).unfocus();
+                      },
+                      decoration: const InputDecoration(
+                        labelText: "Description",
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                      ),
+                      validator: (value) {
+                        if (value == null || value == "") return "Bad format";
+                        return null;
+                      },
+                    ),
+                  ),
+                  TaskStatusModifierWidget(
+                    modifiable: widget.id == null,
+                    onChange: (value) {
+                      if (value == null) return;
                       context
-                          .read<HomeBloc>()
-                          .add(const FetchTaskHomeEvent(null));
-                      if (widget.id != null) {
-                        context
-                            .read<DetailBloc>()
-                            .add(FetchTaskByIdDetailEvent(widget.id!));
-                      }
-
-                      context.router.popForced();
-                    }
-                  },
-                  child: const Text(
-                    "Enregistrer",
+                          .read<FormBloc>()
+                          .add(ChangeStatusFormEvent(value));
+                    },
                   ),
-                )
-              ],
-            ),
-          );
-        },
+                  DateTimePicker(
+                    onChange: (value) {
+                      context.read<FormBloc>().add(
+                            ChangeDueDateFormEvent(value),
+                          );
+                    },
+                    defaultValue: state.task.dueDate,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (context
+                          .read<FormBloc>()
+                          .formKey
+                          .currentState!
+                          .validate()) {
+                        context.read<FormBloc>().add(const SaveFormEvent());
+                        context
+                            .read<HomeBloc>()
+                            .add(const FetchTaskHomeEvent(null));
+                        if (widget.id != null) {
+                          context
+                              .read<DetailBloc>()
+                              .add(FetchTaskByIdDetailEvent(widget.id!));
+                        }
+
+                        context.router.popForced();
+                      }
+                    },
+                    child: const Text(
+                      "Enregistrer",
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

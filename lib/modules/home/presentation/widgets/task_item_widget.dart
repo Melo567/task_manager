@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/core/models/task_model.dart';
 import 'package:task_manager/core/utils/app_router.dart';
-import 'package:task_manager/core/utils/utils.dart';
+import 'package:task_manager/core/utils/date_time_extension.dart';
 import 'package:task_manager/core/widgets/legend_widget.dart';
 
 class TaskItemWidget extends StatelessWidget {
@@ -32,12 +32,32 @@ class TaskItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    task.title,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontSize: 14,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          task.title,
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontSize: 14,
+                                  ),
+                          maxLines: 1,
                         ),
-                    maxLines: 1,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.teal,
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        padding: const EdgeInsets.all(4),
+                        child: Text(
+                          task.status!.name,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   Text(
                     task.description,
@@ -48,13 +68,15 @@ class TaskItemWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      task.dueDate != null
+                          ? LegendWidget(
+                              label: "Due Date",
+                              value: task.createdAt!.humanDateTime,
+                            )
+                          : Container(),
                       LegendWidget(
-                        label: "Created At",
-                        value: humanDateFormat(task.createdAt!),
-                      ),
-                      LegendWidget(
-                        label: "Status",
-                        value: task.status!.name,
+                        label: "Created at",
+                        value: task.createdAt!.humanDateTime,
                       ),
                     ],
                   ),

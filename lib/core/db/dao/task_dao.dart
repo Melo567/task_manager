@@ -3,10 +3,10 @@ import 'package:task_manager/core/db/entities/task.dart';
 
 @dao
 abstract class TaskDao {
-  @Query("SELECT * FROM Task ORDER BY createdAt ASC")
+  @Query("SELECT * FROM Task ORDER BY dueDate ASC")
   Future<List<Task>> findAll();
 
-  @Query("SELECT * FROM Task WHERE status LIKE :status ORDER BY createdAt ASC")
+  @Query("SELECT * FROM Task WHERE status LIKE :status ORDER BY dueDate ASC")
   Future<List<Task>> search(String status);
 
   @Query("SELECT * FROM Task WHERE id = :id")

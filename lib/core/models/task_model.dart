@@ -7,6 +7,7 @@ class TaskModel extends Equatable {
   final String description;
   final TaskStatus? status;
   final DateTime? createdAt;
+  final DateTime? dueDate;
 
   const TaskModel({
     this.id,
@@ -14,6 +15,7 @@ class TaskModel extends Equatable {
     required this.description,
     this.status,
     this.createdAt,
+    this.dueDate,
   });
 
   @override
@@ -23,6 +25,7 @@ class TaskModel extends Equatable {
         description,
         status,
         createdAt,
+        dueDate,
       ];
 
   Task toEntity() => Task(
@@ -31,6 +34,7 @@ class TaskModel extends Equatable {
         id: id,
         status: status ?? TaskStatus.notStared,
         createdAt: createdAt,
+        dueDate: dueDate,
       );
 
   TaskModel copyWith({
@@ -39,6 +43,7 @@ class TaskModel extends Equatable {
     String? description,
     TaskStatus? status,
     DateTime? createdAt,
+    DateTime? dueDate,
   }) {
     return TaskModel(
       id: id ?? this.id,
@@ -46,6 +51,12 @@ class TaskModel extends Equatable {
       description: description ?? this.description,
       status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,
+      dueDate: dueDate ?? this.dueDate,
     );
+  }
+
+  @override
+  String toString() {
+    return 'TaskModel{id: $id, title: $title, description: $description, status: $status, createdAt: $createdAt, dueDate: $dueDate}';
   }
 }

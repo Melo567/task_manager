@@ -16,7 +16,7 @@ class Task {
   final String description;
   final DateTime createdAt;
   final TaskStatus status;
-
+  final DateTime? dueDate;
 
   Task({
     this.id,
@@ -24,6 +24,7 @@ class Task {
     required this.description,
     this.status = TaskStatus.notStared,
     DateTime? createdAt,
+    this.dueDate,
   }) : createdAt = createdAt ?? DateTime.now();
 
   TaskModel toModel() => TaskModel(
@@ -32,5 +33,11 @@ class Task {
         id: id,
         createdAt: createdAt,
         status: status,
+        dueDate: dueDate,
       );
+
+  @override
+  String toString() {
+    return 'Task{id: $id, title: $title, description: $description, createdAt: $createdAt, status: $status, dueDate: $dueDate}';
+  }
 }

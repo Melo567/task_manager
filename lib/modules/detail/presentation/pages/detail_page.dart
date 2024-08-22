@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_manager/core/utils/app_router.dart';
+import 'package:task_manager/core/utils/date_time_extension.dart';
+import 'package:task_manager/core/widgets/legend_widget.dart';
 import 'package:task_manager/modules/detail/presentation/manager/detail_bloc.dart';
 import 'package:task_manager/modules/home/presentation/manager/home_bloc.dart';
 
@@ -68,29 +70,18 @@ class _DetailPageState extends State<DetailPage> {
                       state.task.description,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    Text.rich(
-                      TextSpan(
-                        text: "Created at: ",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        children: [
-                          TextSpan(
-                            text: '${state.task.createdAt}',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
+                    LegendWidget(
+                      label: "Status",
+                      value: state.task.status!.name,
                     ),
-                    Text.rich(
-                      TextSpan(
-                        text: "Status ",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        children: [
-                          TextSpan(
-                            text: '${state.task.status?.name}',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
+                    if (state.task.dueDate != null)
+                      LegendWidget(
+                        label: "Due Date",
+                        value: state.task.dueDate!.humanDateTime,
                       ),
+                    LegendWidget(
+                      label: "Created At",
+                      value: state.task.createdAt!.humanDateTime,
                     ),
                   ],
                 ),
