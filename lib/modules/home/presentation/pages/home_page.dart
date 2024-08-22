@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_manager/core/db/entities/task.dart';
 import 'package:task_manager/core/utils/app_router.dart';
 import 'package:task_manager/modules/form/presentation/manager/form_bloc.dart';
 import 'package:task_manager/modules/home/presentation/manager/home_bloc.dart';
@@ -30,6 +31,26 @@ class _HomePageState extends State<HomePage> {
         title: const Text(
           'Task Manager',
         ),
+        actions: [
+          PopupMenuButton<TaskStatus>(
+            child: const Icon(
+              Icons.filter,
+            ),
+            onSelected: (value) {
+              context.read<HomeBloc>().add(
+                    FetchTaskHomeEvent(value == TaskStatus.all ? null : value),
+                  );
+            },
+            itemBuilder: (context) => TaskStatus.values
+                .map(
+                  (e) => PopupMenuItem<TaskStatus>(
+                    value: e,
+                    child: Text(e.name),
+                  ),
+                )
+                .toList(),
+          )
+        ],
       ),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {

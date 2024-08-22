@@ -2,6 +2,7 @@ import 'package:floor/floor.dart';
 import 'package:task_manager/core/models/task_model.dart';
 
 enum TaskStatus {
+  all,
   notStared,
   progress,
   done,
