@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:task_manager/modules/detail/presentation/pages/detail_page.dart';
 import 'package:task_manager/modules/form/presentation/pages/form_page.dart';
 import 'package:task_manager/modules/home/presentation/pages/home_page.dart';

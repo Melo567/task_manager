@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_manager/modules/detail/presentation/manager/detail_bloc.dart';
 import 'package:task_manager/modules/home/presentation/manager/home_bloc.dart';
 
 import '../manager/form_bloc.dart';
@@ -50,6 +51,9 @@ class _FormPageState extends State<FormPage> {
                   onTapOutside: (pointer) {
                     FocusScope.of(context).unfocus();
                   },
+                  onChanged: (value) {
+                    context.read<FormBloc>().add(ChangeTitleFormEvent(value));
+                  },
                   decoration: const InputDecoration(
                     labelText: "Titre",
                     floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -61,6 +65,11 @@ class _FormPageState extends State<FormPage> {
                 child: TextFormField(
                   initialValue: state.task.description,
                   maxLines: 10,
+                  onChanged: (value) {
+                    context
+                        .read<FormBloc>()
+                        .add(ChangeDescriptionFormEvent(value));
+                  },
                   onTapOutside: (pointer) {
                     FocusScope.of(context).unfocus();
                   },
@@ -73,7 +82,16 @@ class _FormPageState extends State<FormPage> {
               ElevatedButton(
                 onPressed: () {
                   context.read<FormBloc>().add(const SaveFormEvent());
-                  context.read<HomeBloc>().add(const FetchTaskHomeEvent(null));
+                  if (widget.id == null) {
+                    context
+                        .read<HomeBloc>()
+                        .add(const FetchTaskHomeEvent(null));
+                  } else {
+                    context
+                        .read<DetailBloc>()
+                        .add(FetchTaskByIdDetailEvent(widget.id!));
+                  }
+
                   context.router.popForced();
                 },
                 child: const Text(

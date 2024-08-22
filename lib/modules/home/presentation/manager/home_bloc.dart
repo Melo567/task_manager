@@ -13,7 +13,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<FetchTaskHomeEvent>(_onFetchTasks);
   }
 
-  final FetchTaskUseCase fetchTaskUseCase;
+  final FetchTasksUseCase fetchTaskUseCase;
 
   Future<void> _onFetchTasks(
     FetchTaskHomeEvent event,
@@ -36,7 +36,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       (r) => emit(
         state.copyWith(
           status: HomeStatus.loaded,
-          task: r,
+          tasks: r,
         ),
       ),
     );

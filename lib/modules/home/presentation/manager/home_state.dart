@@ -21,11 +21,11 @@ class HomeState extends Equatable {
 
   HomeState copyWith({
     HomeStatus? status,
-    List<TaskModel>? task,
+    List<TaskModel>? tasks,
   }) {
     return HomeState(
       status: status ?? this.status,
-      tasks: task ?? this.tasks,
+      tasks: tasks ?? this.tasks,
     );
   }
 }

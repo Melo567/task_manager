@@ -45,7 +45,7 @@ class FormBloc extends Bloc<FormEvent, FormPageState> {
   ) async {
     final newState = FormPageState(
       state.task.copyWith(
-        title: event.description,
+        description: event.description,
       ),
     );
     emit(newState);

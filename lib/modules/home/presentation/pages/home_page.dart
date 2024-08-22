@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_manager/core/utils/app_router.dart';
 import 'package:task_manager/modules/home/presentation/manager/home_bloc.dart';
+import 'package:task_manager/modules/home/presentation/widgets/task_item_widget.dart';
 
 @RoutePage()
 class HomePage extends StatefulWidget {
@@ -49,7 +50,8 @@ class _HomePageState extends State<HomePage> {
               return ListView.builder(
                 itemCount: state.tasks.length,
                 itemBuilder: (context, index) {
-                  return Container();
+                  final task = state.tasks[index];
+                  return TaskItemWidget(task: task);
                 },
               );
             case HomeStatus.error:
@@ -61,7 +63,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.router.push(const FormRoute());
+          context.router.push(FormRoute());
         },
         child: const Icon(Icons.add),
       ),

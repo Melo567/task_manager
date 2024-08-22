@@ -5,10 +5,10 @@ import 'package:task_manager/core/models/task_model.dart';
 import 'package:task_manager/core/utils/use_case.dart';
 import 'package:task_manager/modules/home/domain/repositories/home_repository.dart';
 
-class FetchTaskUseCase extends UseCase<List<TaskModel>, TaskStatus?> {
+class FetchTasksUseCase extends UseCase<List<TaskModel>, TaskStatus?> {
   final HomeRepository repository;
 
-  FetchTaskUseCase(this.repository);
+  FetchTasksUseCase(this.repository);
 
   @override
   Future<Either<Failure, List<TaskModel>>> call(TaskStatus? param) async {

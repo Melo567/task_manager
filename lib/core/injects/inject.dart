@@ -1,5 +1,11 @@
 import 'package:task_manager/core/db/database.dart';
 import 'package:get_it/get_it.dart';
+import 'package:task_manager/modules/detail/data/data_sources/detail_local_datasource.dart';
+import 'package:task_manager/modules/detail/data/repositories/detail_repository_impl.dart';
+import 'package:task_manager/modules/detail/domain/repositories/detail_repository.dart';
+import 'package:task_manager/modules/detail/domain/use_cases/delete_task_use_case.dart';
+import 'package:task_manager/modules/detail/domain/use_cases/fetch_task_use_case.dart';
+import 'package:task_manager/modules/detail/presentation/manager/detail_bloc.dart';
 import 'package:task_manager/modules/form/data/data_sources/form_local_datasource.dart';
 import 'package:task_manager/modules/form/data/repositories/form_repository_impl.dart';
 import 'package:task_manager/modules/form/domain/repositories/form_repository.dart';
@@ -37,6 +43,11 @@ Future<void> injectSource() async {
       getIt(),
     ),
   );
+  getIt.registerLazySingleton<DetailLocalDatasource>(
+    () => DetailLocalDatasourceImpl(
+      getIt(),
+    ),
+  );
 }
 
 Future<void> injectRepository() async {
@@ -51,11 +62,16 @@ Future<void> injectRepository() async {
       getIt(),
     ),
   );
+  getIt.registerLazySingleton<DetailRepository>(
+    () => DetailRepositoryImpl(
+      getIt(),
+    ),
+  );
 }
 
 Future<void> injectUseCase() async {
   getIt.registerLazySingleton(
-    () => FetchTaskUseCase(
+    () => FetchTasksUseCase(
       getIt(),
     ),
   );
@@ -71,6 +87,17 @@ Future<void> injectUseCase() async {
       getIt(),
     ),
   );
+  getIt.registerLazySingleton(
+    () => FetchTaskUseCase(
+      getIt(),
+    ),
+  );
+
+  getIt.registerLazySingleton(
+    () => DeleteTaskUseCase(
+      getIt(),
+    ),
+  );
 }
 
 Future<void> injectBloc() async {
@@ -82,6 +109,12 @@ Future<void> injectBloc() async {
 
   getIt.registerFactory(
     () => FormBloc(
+      getIt(),
+      getIt(),
+    ),
+  );
+  getIt.registerFactory(
+    () => DetailBloc(
       getIt(),
       getIt(),
     ),

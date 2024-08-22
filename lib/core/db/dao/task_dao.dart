@@ -17,4 +17,7 @@ abstract class TaskDao {
 
   @Update(onConflict: OnConflictStrategy.replace)
   Future<void> update(Task task);
+
+  @Query("DELETE FROM Task WHERE id = :id")
+  Future<void> delete(int id);
 }

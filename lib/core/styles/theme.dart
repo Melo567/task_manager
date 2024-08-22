@@ -7,10 +7,7 @@ final theme = ThemeData(
   appBarTheme: AppBarTheme(
     backgroundColor: Colors.blue,
     centerTitle: Platform.isIOS,
-    titleTextStyle: const TextStyle(
-      color: Colors.white,
-      fontSize: 20
-    ),
+    titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
     iconTheme: const IconThemeData(
       color: Colors.white,
     ),
@@ -32,6 +29,17 @@ final theme = ThemeData(
       fixedSize: WidgetStatePropertyAll(
         Size(280, 48),
       ),
+    ),
+  ),
+  textTheme: const TextTheme(
+    titleMedium: TextStyle(
+      color: Colors.black,
+      fontSize: 18,
+      fontWeight: FontWeight.w600,
+    ),
+    bodyMedium: TextStyle(
+      color: Colors.black,
+      fontSize: 14,
     ),
   ),
 );
