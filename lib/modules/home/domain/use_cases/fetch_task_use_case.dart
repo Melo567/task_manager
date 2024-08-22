@@ -12,7 +12,7 @@ class FetchTasksUseCase extends UseCase<List<TaskModel>, TaskStatus?> {
 
   @override
   Future<Either<Failure, List<TaskModel>>> call(TaskStatus? param) async {
-    return param == null
+    return param == null || param == TaskStatus.all
         ? await repository.getAll()
         : await repository.search(param);
   }

@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
             ),
             onSelected: (value) {
               context.read<HomeBloc>().add(
-                    FetchTaskHomeEvent(value == TaskStatus.all ? null : value),
+                    FetchTaskHomeEvent(value),
                   );
             },
             itemBuilder: (context) => TaskStatus.values

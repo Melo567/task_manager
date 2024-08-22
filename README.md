@@ -24,6 +24,7 @@ Follow these steps to set up the project:
 
 ```bash
 git clone https://github.com/Melo567/task_manager.git
+
 cd task_manager
 ```
 
@@ -40,7 +41,7 @@ flutter pub get
 Build the necessary route files using `auto_route`:
 
 ```bash
-flutter packages pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
 ```
 
 ## Project Structure
