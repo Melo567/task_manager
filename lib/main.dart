@@ -3,6 +3,7 @@ import 'package:task_manager/core/injects/inject.dart';
 import 'package:task_manager/core/styles/theme.dart';
 import 'package:task_manager/core/utils/app_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_manager/modules/form/presentation/manager/form_bloc.dart';
 import 'package:task_manager/modules/home/presentation/manager/home_bloc.dart';
 
 Future<void> main() async {
@@ -30,7 +31,10 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => getIt<HomeBloc>(),
-        )
+        ),
+        BlocProvider(
+          create: (context) => getIt<FormBloc>(),
+        ),
       ],
       child: MaterialApp.router(
         title: 'Task Manager',

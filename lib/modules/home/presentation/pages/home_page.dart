@@ -25,7 +25,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text(
           'Task Manager',
         ),
@@ -40,7 +39,13 @@ class _HomePageState extends State<HomePage> {
                 child: CircularProgressIndicator(),
               );
             case HomeStatus.loaded:
-              
+              if (state.tasks.isEmpty) {
+                return const Center(
+                  child: Text(
+                    "Vous n'avez pas encore de tâche",
+                  ),
+                );
+              }
               return ListView.builder(
                 itemCount: state.tasks.length,
                 itemBuilder: (context, index) {
