@@ -25,13 +25,12 @@ class TaskModel extends Equatable {
         createdAt,
       ];
 
-
-
   Task toEntity() => Task(
         title: title,
         description: description,
         id: id,
         status: status ?? TaskStatus.notStared,
+        createdAt: createdAt,
       );
 
   TaskModel copyWith({

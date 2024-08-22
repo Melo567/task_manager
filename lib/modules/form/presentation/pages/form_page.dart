@@ -20,8 +20,6 @@ class FormPage extends StatefulWidget {
 }
 
 class _FormPageState extends State<FormPage> {
-  final formKey = GlobalKey<FormState>();
-
   @override
   void initState() {
     super.initState();
@@ -40,65 +38,73 @@ class _FormPageState extends State<FormPage> {
       ),
       body: BlocBuilder<FormBloc, FormPageState>(
         builder: (context, state) {
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(
-                  8.0,
-                ),
-                child: TextFormField(
-                  initialValue: state.task.title,
-                  onTapOutside: (pointer) {
-                    FocusScope.of(context).unfocus();
-                  },
-                  onChanged: (value) {
-                    context.read<FormBloc>().add(ChangeTitleFormEvent(value));
-                  },
-                  decoration: const InputDecoration(
-                    labelText: "Titre",
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
+          return Form(
+            key: context.read<FormBloc>().formKey,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(
+                    8.0,
+                  ),
+                  child: TextFormField(
+                    controller: context.read<FormBloc>().titleController,
+                    onTapOutside: (pointer) {
+                      FocusScope.of(context).unfocus();
+                    },
+                    decoration: const InputDecoration(
+                      labelText: "Titre",
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                    ),
+                    validator: (value) {
+                      if (value == null || value == "") return "Bad format";
+                      return null;
+                    },
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  initialValue: state.task.description,
-                  maxLines: 10,
-                  onChanged: (value) {
-                    context
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: context.read<FormBloc>().descriptionController,
+                    maxLines: 10,
+                    onTapOutside: (pointer) {
+                      FocusScope.of(context).unfocus();
+                    },
+                    decoration: const InputDecoration(
+                      labelText: "Description",
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                    ),
+                    validator: (value) {
+                      if (value == null || value == "") return "Bad format";
+                      return null;
+                    },
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (context
                         .read<FormBloc>()
-                        .add(ChangeDescriptionFormEvent(value));
-                  },
-                  onTapOutside: (pointer) {
-                    FocusScope.of(context).unfocus();
-                  },
-                  decoration: const InputDecoration(
-                    labelText: "Description",
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                  ),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  context.read<FormBloc>().add(const SaveFormEvent());
-                  if (widget.id == null) {
-                    context
-                        .read<HomeBloc>()
-                        .add(const FetchTaskHomeEvent(null));
-                  } else {
-                    context
-                        .read<DetailBloc>()
-                        .add(FetchTaskByIdDetailEvent(widget.id!));
-                  }
+                        .formKey
+                        .currentState!
+                        .validate()) {
+                      context.read<FormBloc>().add(const SaveFormEvent());
+                      context
+                          .read<HomeBloc>()
+                          .add(const FetchTaskHomeEvent(null));
+                      if (widget.id != null) {
+                        context
+                            .read<DetailBloc>()
+                            .add(FetchTaskByIdDetailEvent(widget.id!));
+                      }
 
-                  context.router.popForced();
-                },
-                child: const Text(
-                  "Enregistrer",
-                ),
-              )
-            ],
+                      context.router.popForced();
+                    }
+                  },
+                  child: const Text(
+                    "Enregistrer",
+                  ),
+                )
+              ],
+            ),
           );
         },
       ),

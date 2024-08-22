@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_manager/core/utils/app_router.dart';
+import 'package:task_manager/modules/form/presentation/manager/form_bloc.dart';
 import 'package:task_manager/modules/home/presentation/manager/home_bloc.dart';
 import 'package:task_manager/modules/home/presentation/widgets/task_item_widget.dart';
 
@@ -63,6 +64,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          context.read<FormBloc>().add(NewTaskFormEvent());
           context.router.push(FormRoute());
         },
         child: const Icon(Icons.add),

@@ -6,7 +6,9 @@ class FormPageState extends Equatable {
   const FormPageState(this.task);
 
   @override
-  List<Object> get props => [task];
+  List<Object> get props => [
+        task,
+      ];
 }
 
 final class FormInitial extends FormPageState {

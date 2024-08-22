@@ -21,7 +21,8 @@ class Task {
     required this.title,
     required this.description,
     this.status = TaskStatus.notStared,
-  }) : createdAt = DateTime.now();
+    DateTime? createdAt,
+  }) : createdAt = createdAt ?? DateTime.now();
 
   TaskModel toModel() => TaskModel(
         title: title,

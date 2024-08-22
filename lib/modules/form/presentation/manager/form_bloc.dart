@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_manager/core/models/task_model.dart';
 import 'package:task_manager/modules/form/domain/use_cases/fetch_task_by_id_use_case.dart';
@@ -18,38 +19,21 @@ class FormBloc extends Bloc<FormEvent, FormPageState> {
             description: '',
           ),
         )) {
-    on<ChangeTitleFormEvent>(_onChangeTitle);
-    on<ChangeDescriptionFormEvent>(_onChangeDescription);
     on<FetchTaskByIdFormEvent>(_onFetchTask);
     on<SaveFormEvent>(_onSaveTask);
+    on<NewTaskFormEvent>(_onNewTask);
+
+    titleController = TextEditingController();
+    descriptionController = TextEditingController();
+    formKey = GlobalKey<FormState>();
   }
+
+  late final TextEditingController titleController;
+  late final TextEditingController descriptionController;
+  late final GlobalKey<FormState> formKey;
 
   final SaveTaskUseCase saveTaskUseCase;
   final FetchTaskByIdUseCase fetchTaskByIdUseCase;
-
-  Future<void> _onChangeTitle(
-    ChangeTitleFormEvent event,
-    Emitter<FormPageState> emit,
-  ) async {
-    final newState = FormPageState(
-      state.task.copyWith(
-        title: event.title,
-      ),
-    );
-    emit(newState);
-  }
-
-  Future<void> _onChangeDescription(
-    ChangeDescriptionFormEvent event,
-    Emitter<FormPageState> emit,
-  ) async {
-    final newState = FormPageState(
-      state.task.copyWith(
-        description: event.description,
-      ),
-    );
-    emit(newState);
-  }
 
   Future<void> _onFetchTask(
     FetchTaskByIdFormEvent event,
@@ -58,8 +42,10 @@ class FormBloc extends Bloc<FormEvent, FormPageState> {
     final result = await fetchTaskByIdUseCase(event.id);
     result.fold(
       (l) {},
-      (r) => {
-        emit(FormPageState(r)),
+      (r) {
+        descriptionController.text = r.description;
+        titleController.text = r.title;
+        emit(FormPageState(r));
       },
     );
   }
@@ -68,6 +54,25 @@ class FormBloc extends Bloc<FormEvent, FormPageState> {
     SaveFormEvent event,
     Emitter<FormPageState> emit,
   ) async {
-    await saveTaskUseCase(state.task);
+    await saveTaskUseCase(TaskModel(
+      title: titleController.text,
+      description: descriptionController.text,
+    ));
+  }
+
+  Future<void> _onNewTask(
+    NewTaskFormEvent event,
+    Emitter<FormPageState> emit,
+  ) async {
+    emit(
+      const FormInitial(
+        TaskModel(
+          title: '',
+          description: '',
+        ),
+      ),
+    );
+    descriptionController.text = '';
+    titleController.text = '';
   }
 }

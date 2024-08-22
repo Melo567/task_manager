@@ -68,6 +68,30 @@ class _DetailPageState extends State<DetailPage> {
                       state.task.description,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
+                    Text.rich(
+                      TextSpan(
+                        text: "Created at: ",
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        children: [
+                          TextSpan(
+                            text: '${state.task.createdAt}',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text.rich(
+                      TextSpan(
+                        text: "Status ",
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        children: [
+                          TextSpan(
+                            text: '${state.task.status?.name}',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               );
@@ -114,8 +138,11 @@ class _DetailPageState extends State<DetailPage> {
                   context.read<HomeBloc>().add(const FetchTaskHomeEvent(null));
                   context.router.popForced();
                 },
-                child: const Text(
+                child: Text(
                   "Supprimer",
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
                 ),
               )
             ],
