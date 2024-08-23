@@ -1,8 +1,12 @@
 # Task Manager
 
-Task Manager is a mobile application built using Flutter, designed for efficient task management. It follows the principles of Clean Architecture, utilizing `flutter_bloc` for state management and `auto_route` for route management. This guide will help you set up, run, and test the application.
+Task Manager is a mobile application built using Flutter, designed for efficient task management. It
+follows the principles of Clean Architecture, utilizing `flutter_bloc` for state management
+and `auto_route` for route management. This guide will help you set up, run, and test the
+application.
 
 ## Features
+
 - **Task Management**: Create, update, delete, and view tasks.
 - **State Management**: Managed by `flutter_bloc` for predictable state handling.
 - **Navigation**: Structured and type-safe routing with `auto_route`.
@@ -49,10 +53,10 @@ dart run build_runner build --delete-conflicting-outputs
 This project adheres to Clean Architecture, with the following structure:
 
 **Core Layers:**
-    - `domain/`: Contains business logic, entities, and repository interfaces.
-    - `data/`: Implements repositories, data sources, and models.
-    - `presentation/`: Houses the UI, including screens, widgets, and blocs.
 
+- `domain/`: Contains business logic, entities, and repository interfaces.
+- `data/`: Implements repositories, data sources, and models.
+- `presentation/`: Houses the UI, including screens, widgets, and blocs.
 
 ## Running the Application
 
@@ -82,12 +86,4 @@ Run unit tests to verify the business logic:
 
 ```bash
 flutter test
-```
-
-2. **Integration Tests**
-
-Run integration tests to ensure the app works end-to-end:
-
-```bash
-flutter drive --target=test_driver/app.dart
 ```

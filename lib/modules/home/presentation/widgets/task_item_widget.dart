@@ -47,12 +47,12 @@ class TaskItemWidget extends StatelessWidget {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: getColor(task.status!),
+                          color: getColor(task.status ?? TaskStatus.notStared),
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         padding: const EdgeInsets.all(4),
                         child: Text(
-                          task.status!.name,
+                          task.status?.name ?? TaskStatus.notStared.name,
                           style: Theme.of(context).textTheme.labelMedium,
                         ),
                       )
@@ -67,16 +67,16 @@ class TaskItemWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      task.dueDate != null
-                          ? LegendWidget(
-                              label: "Due Date",
-                              value: task.dueDate!.humanDateTime,
-                            )
-                          : Container(),
-                      LegendWidget(
-                        label: "Created at",
-                        value: task.createdAt!.humanDateTime,
-                      ),
+                      if (task.dueDate != null)
+                        LegendWidget(
+                          label: "Due Date",
+                          value: task.dueDate!.humanDateTime,
+                        ),
+                      if (task.createdAt != null)
+                        LegendWidget(
+                          label: "Created at",
+                          value: task.createdAt!.humanDateTime,
+                        ),
                     ],
                   ),
                 ],
