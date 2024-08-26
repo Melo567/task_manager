@@ -107,7 +107,7 @@ void main() {
 
     await createWidgetUnderTest(tester);
 
-    expect(find.text("Une erreur s'est produite"), findsOneWidget);
+    expect(find.text("An error has occurred"), findsOneWidget);
   });
 
   testWidgets('DetailPage shows confirmation dialog on delete icon press',
@@ -135,7 +135,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.text("Vous êtes sur de supprimer la tâche ?"),
+      find.text("Are you sure to delete the task ?"),
       findsOneWidget,
     );
   });

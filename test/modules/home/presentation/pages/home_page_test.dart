@@ -112,7 +112,7 @@ void main() {
 
     await tester.pumpWidget(createWidgetUnderTest());
 
-    expect(find.text("Vous n'avez pas encore de tâche"), findsOneWidget);
+    expect(find.text("You don't have a task"), findsOneWidget);
   });
 
   testWidgets('should display an error message when state is error',
@@ -125,7 +125,7 @@ void main() {
     await tester.pumpWidget(createWidgetUnderTest());
 
     expect(
-      find.text("Une erreur s'est produite"),
+      find.text("An error has occurred"),
       findsOneWidget,
     );
   });

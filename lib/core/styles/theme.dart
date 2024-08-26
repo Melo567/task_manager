@@ -2,6 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+
+const defaultTextStyle = const TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+);
+
 final theme = ThemeData(
   primaryColor: Colors.blue,
   colorScheme: const ColorScheme(
@@ -26,7 +32,11 @@ final theme = ThemeData(
   inputDecorationTheme: InputDecorationTheme(
     contentPadding: const EdgeInsets.all(8.0),
     labelStyle: const TextStyle(
-      fontSize: 18,
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+    ),
+    hintStyle: const TextStyle(
+      fontSize: 14,
       fontWeight: FontWeight.w400,
     ),
     border: OutlineInputBorder(

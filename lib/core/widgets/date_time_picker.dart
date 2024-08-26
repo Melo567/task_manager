@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/core/styles/theme.dart';
 import 'package:task_manager/core/utils/date_time_extension.dart';
 
 class DateTimePicker extends StatefulWidget {
@@ -6,11 +7,14 @@ class DateTimePicker extends StatefulWidget {
     super.key,
     required this.onChange,
     this.defaultValue,
+    this.style = defaultTextStyle,
   });
 
   final Function(DateTime dateTime) onChange;
 
   final DateTime? defaultValue;
+
+  final TextStyle? style;
 
   @override
   State<DateTimePicker> createState() => _DateTimePickerState();
@@ -70,6 +74,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                       widget.onChange(_dateTime!);
                     }
                   },
+                  style: widget.style,
                   decoration: const InputDecoration(
                     labelText: 'Date',
                     floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -109,6 +114,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                       widget.onChange(_dateTime!);
                     }
                   },
+                  style: widget.style,
                   decoration: const InputDecoration(
                     labelText: 'Hour',
                     hintText: 'HH:mm',

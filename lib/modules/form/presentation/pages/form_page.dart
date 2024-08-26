@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_manager/core/styles/theme.dart';
 import 'package:task_manager/core/widgets/date_time_picker.dart';
 import 'package:task_manager/core/widgets/task_status_modifier_widget.dart';
 import 'package:task_manager/modules/detail/presentation/manager/detail_bloc.dart';
@@ -67,9 +68,10 @@ class _FormPageState extends State<FormPage> {
                             FocusScope.of(context).unfocus();
                           },
                           decoration: const InputDecoration(
-                            labelText: "Titre",
+                            labelText: "Title",
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                           ),
+                          style: defaultTextStyle,
                           validator: (value) {
                             if (value == null || value == "") {
                               return "Bad format";
@@ -92,6 +94,7 @@ class _FormPageState extends State<FormPage> {
                             labelText: "Description",
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                           ),
+                          style: defaultTextStyle,
                           validator: (value) {
                             if (value == null || value == "") {
                               return "Bad format";
@@ -139,7 +142,7 @@ class _FormPageState extends State<FormPage> {
                           }
                         },
                         child: const Text(
-                          "Enregistrer",
+                          "Save",
                         ),
                       )
                     ],

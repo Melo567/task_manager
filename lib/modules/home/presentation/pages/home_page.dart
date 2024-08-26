@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
               if (state.tasks.isEmpty) {
                 return const Center(
                   child: Text(
-                    "Vous n'avez pas encore de tâche",
+                    "You don't have a task",
                   ),
                 );
               }
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
               );
             case HomeStatus.error:
               return const Text(
-                'Une erreur s\'est produite',
+                'An error has occurred',
               );
           }
         },

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class LegendWidget extends StatelessWidget {
-  const LegendWidget(
-      {super.key,
-      required this.label,
-      required this.value,
-      this.fontSize = 12});
+  const LegendWidget({
+    super.key,
+    required this.label,
+    required this.value,
+    this.fontSize = 10,
+  });
 
   final String label;
   final String value;

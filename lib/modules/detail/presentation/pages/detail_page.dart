@@ -73,15 +73,18 @@ class _DetailPageState extends State<DetailPage> {
                     LegendWidget(
                       label: "Status",
                       value: state.task.status!.name,
+                      fontSize: 13,
                     ),
                     if (state.task.dueDate != null)
                       LegendWidget(
                         label: "Due Date",
                         value: state.task.dueDate!.humanDateTime,
+                        fontSize: 13,
                       ),
                     LegendWidget(
                       label: "Created At",
                       value: state.task.createdAt!.humanDateTime,
+                      fontSize: 13,
                     ),
                   ],
                 ),
@@ -89,7 +92,7 @@ class _DetailPageState extends State<DetailPage> {
             case DetailStatus.error:
               return const Center(
                 child: Text(
-                  'Une erreur s\'est produite',
+                  'An error has occurred',
                 ),
               );
           }
@@ -107,7 +110,7 @@ class _DetailPageState extends State<DetailPage> {
               "Alert",
             ),
             content: const Text(
-              "Vous êtes sur de supprimer la tâche ?",
+              "Are you sure to delete the task ?",
             ),
             actions: [
               adaptiveAction(
@@ -116,7 +119,7 @@ class _DetailPageState extends State<DetailPage> {
                   context.router.popForced();
                 },
                 child: const Text(
-                  "Annuler",
+                  "Cancel",
                 ),
               ),
               adaptiveAction(
@@ -130,7 +133,7 @@ class _DetailPageState extends State<DetailPage> {
                   context.router.popForced();
                 },
                 child: Text(
-                  "Supprimer",
+                  "Delete",
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Theme.of(context).colorScheme.error,
                       ),
