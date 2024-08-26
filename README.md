@@ -74,7 +74,13 @@ Execute the following command:
 flutter run
 ```
 
-The application should now launch on your device or emulator.
+For run in ios simulator 
+
+```shell
+cd ios && pod install
+
+flutter run
+```
 
 ## Testing
 
