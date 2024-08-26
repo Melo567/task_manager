@@ -27,6 +27,8 @@ class _FormPageState extends State<FormPage> {
     super.initState();
     if (widget.id != null) {
       context.read<FormBloc>().add(FetchTaskByIdFormEvent(widget.id!));
+    } else {
+      context.read<FormBloc>().add(NewTaskFormEvent());
     }
   }
 
@@ -58,6 +60,7 @@ class _FormPageState extends State<FormPage> {
                           8.0,
                         ),
                         child: TextFormField(
+                          key: const ValueKey('title_key'),
                           controller: context.read<FormBloc>().titleController,
                           autofocus: false,
                           onTapOutside: (pointer) {

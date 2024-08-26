@@ -1,6 +1,6 @@
 part of 'form_bloc.dart';
 
-sealed class FormEvent extends Equatable {
+abstract class FormEvent extends Equatable {
   const FormEvent();
 }
 
